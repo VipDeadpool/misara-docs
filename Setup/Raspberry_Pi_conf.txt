@@ -1,0 +1,37 @@
+Steps for Raspberry Pi Configuration
+
+To configure your Raspberry Pi, follow these steps:
+
+1.Open PuTTY and Enter Hostname:
+    # Launch PuTTY.
+    # Enter the hostname openhabian to connect to your Raspberry Pi.
+
+2.Change the WiFi Settings:
+    # In the terminal, edit the WiFi configuration file:
+
+    Code:(sudo nano /etc/wpa_supplicant/wpa_supplicant.conf)
+
+    # Add your WiFi SSID and password (preferably a 2.4GHz network):
+    (
+        network={
+        ssid="Your_SSID"
+        psk="Your_WiFi_Password"
+        }
+    )
+    
+3.Change the OpenHABian WiFi Settings:
+    # Edit the OpenHABian configuration file:
+
+    Code:(sudo nano /boot/openhabian.conf)
+
+4.Reboot Raspberry Pi:
+    # Reboot the Raspberry Pi to apply the new settings:
+
+    Code:(sudo reboot)
+
+5.Fetch the IP Address for MQTT Broker:
+    # After rebooting, retrieve the IP address of the Raspberry Pi, 
+    which will be used for the MQTT broker in OpenHABian binding and ESP32 code:
+    Code:(hostname -I)
+
+These steps will help you configure your Raspberry Pi with the necessary WiFi settings and retrieve the IP address for the MQTT broker.
