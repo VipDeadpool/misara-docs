@@ -1,6 +1,6 @@
-Steps for Raspberry Pi Configuration
+Steps for Raspberry Pi Wifi & Static Ip Configuration
 
-To configure your Raspberry Pi, follow these steps:
+//To configure your Raspberry Pi, follow these steps:
 
 1.Open PuTTY and Enter Hostname:
     # Launch PuTTY.
@@ -8,30 +8,68 @@ To configure your Raspberry Pi, follow these steps:
 
 2.Change the WiFi Settings:
     # In the terminal, edit the WiFi configuration file:
-
-    Code:(sudo nano /etc/wpa_supplicant/wpa_supplicant.conf)
+        "sudo nano /etc/wpa_supplicant/wpa_supplicant.conf"
 
     # Add your WiFi SSID and password (preferably a 2.4GHz network):
-    (
-        network={
-        ssid="Your_SSID"
-        psk="Your_WiFi_Password"
-        }
-    )
-    
+        "{
+            network={
+            ssid="Your_SSID"
+            psk="Your_WiFi_Password"
+            }
+        }"
+        
 3.Change the OpenHABian WiFi Settings:
     # Edit the OpenHABian configuration file:
-
-    Code:(sudo nano /boot/openhabian.conf)
+        "sudo nano /boot/openhabian.conf"
 
 4.Reboot Raspberry Pi:
     # Reboot the Raspberry Pi to apply the new settings:
-
-    Code:(sudo reboot)
+        "sudo reboot"
 
 5.Fetch the IP Address for MQTT Broker:
-    # After rebooting, retrieve the IP address of the Raspberry Pi, 
-    which will be used for the MQTT broker in OpenHABian binding and ESP32 code:
-    Code:(hostname -I)
+    # After rebooting, retrieve the IP address of the Raspberry Pi, which will be used for the MQTT broker in OpenHABian binding and ESP32 code:
+        "hostname -I"
 
-These steps will help you configure your Raspberry Pi with the necessary WiFi settings and retrieve the IP address for the MQTT broker.
+
+
+//To configure a static IP address for your Raspberry Pi, follow these steps:
+
+1.Fetch the IP Address:
+    # Obtain the current IP address of your Raspberry Pi:
+        "hostname -I"
+
+2.Fetch the Name Server:
+    # Open the resolv.conf file to find the name server information:
+        "sudo nano /etc/resolv.conf"
+
+    # Note the IP address listed under nameserver.
+
+3.Fetch the Router IP Address:
+    # Obtain the IP address of your router:
+        "ip r"
+
+    # Note the IP address listed as default via.
+
+4.Add the Details to dhcpcd.conf:
+    # Open the dhcpcd.conf file to configure the static IP settings:
+        "sudo nano /etc/dhcpcd.conf"
+
+    # Add the following configuration at the end of the file, replacing the placeholders with your actual network details:
+        "{
+            interface wlan0
+            static ip_address=Your_Static_IP/24
+            static routers=Your_Router_IP
+            static domain_name_servers=Your_Nameserver_IP
+        }"
+
+    # Example configuration:
+        {
+            interface wlan0
+            static ip_address=192.168.1.100/24
+            static routers=192.168.1.1
+            static domain_name_servers=8.8.8.8
+        }
+
+5.Reboot the Raspberry Pi:
+    # Reboot the Raspberry Pi to apply the new static IP settings:
+        "sudo reboot"
