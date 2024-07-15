@@ -147,9 +147,6 @@ void setup()
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
-    Serial.print("Message arrived in topic: ");
-    Serial.println(topic);
-    Serial.print("Message: ");
     String message;
     if (strcmp(topic, "/home/switch1/command") == 0)
     {
@@ -157,7 +154,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         {
             message += (char)payload[i]; // Convert *byte to string
         }
-        Serial.print(message);
+
         if (message == "6" && !ledState_1)
         {
             digitalWrite(RELAY_1, LOW);
@@ -170,8 +167,6 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_1 = false;
             delay(500);
         }
-        Serial.println();
-        Serial.println("-----------------------");
     }
     else if (strcmp(topic, "/home/switch2/command") == 0)
     {
@@ -179,7 +174,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         {
             message += (char)payload[i];
         }
-        Serial.print(message);
+
         if (message == "11" && !ledState_2)
         {
             digitalWrite(RELAY_2, LOW);
@@ -192,8 +187,6 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_2 = false;
             delay(500);
         }
-        Serial.println();
-        Serial.println("-----------------------");
     }
     else if (strcmp(topic, "/home/switch3/command") == 0)
     {
@@ -201,7 +194,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         {
             message += (char)payload[i];
         }
-        Serial.print(message);
+
         if (message == "111" && !ledState_3)
         {
             digitalWrite(RELAY_3, LOW);
@@ -214,8 +207,6 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_3 = false;
             delay(500);
         }
-        Serial.println();
-        Serial.println("-----------------------");
     }
     else if (strcmp(topic, "/home/switch4/command") == 0)
     {
@@ -223,7 +214,6 @@ void callback(char *topic, byte *payload, unsigned int length)
         {
             message += (char)payload[i];
         }
-        Serial.print(message);
         if (message == "1111" && !ledState_4)
         {
             digitalWrite(RELAY_4, LOW);
@@ -236,8 +226,6 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_4 = false;
             delay(500);
         }
-        Serial.println();
-        Serial.println("-----------------------");
     }
     else if (strcmp(topic, "/home/switch5/command") == 0)
     {
@@ -245,7 +233,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         {
             message += (char)payload[i];
         }
-        Serial.print(message);
+
         if (message == "11111" && !ledState_5)
         {
             digitalWrite(RELAY_5, LOW);
@@ -258,8 +246,6 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_5 = false;
             delay(500);
         }
-        Serial.println();
-        Serial.println("-----------------------");
     }
     else if (strcmp(topic, "/home/switchf/command") == 0)
     {
@@ -267,7 +253,7 @@ void callback(char *topic, byte *payload, unsigned int length)
         {
             message += (char)payload[i];
         }
-        Serial.print(message);
+
         if (message == "4")
         {
             digitalWrite(RELAY_8, LOW);
@@ -303,8 +289,6 @@ void callback(char *topic, byte *payload, unsigned int length)
             digitalWrite(RELAY_7, HIGH);
             delay(500);
         }
-        Serial.println();
-        Serial.println("-----------------------");
     }
 }
 
