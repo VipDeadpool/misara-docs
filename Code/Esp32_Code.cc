@@ -26,19 +26,19 @@ int switch_ON_Flag4_previous_I = 0;
 int switch_ON_Flag5_previous_I = 0;
 int switch_ON_Flagf_previous_I = 0;
 
-const char *ssid = "B_402_2.4G";   // Enter your WiFi name
-const char *password = "B402@123"; // Enter WiFi password
-const char *mqtt_broker = "192.168.1.10";
+const char *ssid = "Airtel_vipu_9715"; // Enter your WiFi name
+const char *password = "air14265";     // Enter WiFi password
+const char *mqtt_broker = "192.168.1.0";
 const char *mqtt_username = "misara";
 const char *mqtt_password = "openhab";
 const int mqtt_port = 1883;
 
-#define pub1 "/home/switch1/command"
-#define pub2 "/home/switch2/command"
-#define pub3 "/home/switch3/command"
-#define pub4 "/home/switch4/command"
-#define pub5 "/home/switch5/command"
-#define pubf "/home/switchf/command"
+#define pub1 "/ESP32-client-0/home/switch1/command"
+#define pub2 "/ESP32-client-0/home/switch2/command"
+#define pub3 "/ESP32-client-0/home/switch3/command"
+#define pub4 "/ESP32-client-0/home/switch4/command"
+#define pub5 "/ESP32-client-0/home/switch5/command"
+#define pubf "/ESP32-client-0/home/switchf/command"
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -59,7 +59,7 @@ void reconnect_mqtt()
         if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
         {
             Serial.println("mqtt broker connected");
-            digitalWrite(BUILTIN_LED, HIGH);
+            // digitalWrite(BUILTIN_LED, HIGH);
             delay(10000);
         }
         else
@@ -78,12 +78,12 @@ void reconnect_mqtt()
         }
         client.setKeepAlive(60);
     }
-    client.subscribe("/home/switch1/command");
-    client.subscribe("/home/switch2/command");
-    client.subscribe("/home/switch3/command");
-    client.subscribe("/home/switch4/command");
-    client.subscribe("/home/switch5/command");
-    client.subscribe("/home/switchf/command");
+    client.subscribe("/ESP32-client-0/home/switch1/command");
+    client.subscribe("/ESP32-client-0/home/switch2/command");
+    client.subscribe("/ESP32-client-0/home/switch3/command");
+    client.subscribe("/ESP32-client-0/home/switch4/command");
+    client.subscribe("/ESP32-client-0/home/switch5/command");
+    client.subscribe("/ESP32-client-0/home/switchf/command");
 }
 
 // connecting to a WiFi network
@@ -147,14 +147,17 @@ void setup()
 
 void callback(char *topic, byte *payload, unsigned int length)
 {
+    Serial.print("Message arrived in topic: ");
+    Serial.println(topic);
+    Serial.print("Message: ");
     String message;
-    if (strcmp(topic, "/home/switch1/command") == 0)
+    if (strcmp(topic, "/ESP32-client-0/home/switch1/command") == 0)
     {
         for (int i = 0; i < length; i++)
         {
             message += (char)payload[i]; // Convert *byte to string
         }
-
+        Serial.print(message);
         if (message == "6" && !ledState_1)
         {
             digitalWrite(RELAY_1, LOW);
@@ -167,14 +170,16 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_1 = false;
             delay(500);
         }
+        Serial.println();
+        Serial.println("-----------------------");
     }
-    else if (strcmp(topic, "/home/switch2/command") == 0)
+    else if (strcmp(topic, "/ESP32-client-0/home/switch2/command") == 0)
     {
         for (int i = 0; i < length; i++)
         {
             message += (char)payload[i];
         }
-
+        Serial.print(message);
         if (message == "11" && !ledState_2)
         {
             digitalWrite(RELAY_2, LOW);
@@ -187,14 +192,16 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_2 = false;
             delay(500);
         }
+        Serial.println();
+        Serial.println("-----------------------");
     }
-    else if (strcmp(topic, "/home/switch3/command") == 0)
+    else if (strcmp(topic, "/ESP32-client-0/home/switch3/command") == 0)
     {
         for (int i = 0; i < length; i++)
         {
             message += (char)payload[i];
         }
-
+        Serial.print(message);
         if (message == "111" && !ledState_3)
         {
             digitalWrite(RELAY_3, LOW);
@@ -207,13 +214,16 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_3 = false;
             delay(500);
         }
+        Serial.println();
+        Serial.println("-----------------------");
     }
-    else if (strcmp(topic, "/home/switch4/command") == 0)
+    else if (strcmp(topic, "/ESP32-client-0/home/switch4/command") == 0)
     {
         for (int i = 0; i < length; i++)
         {
             message += (char)payload[i];
         }
+        Serial.print(message);
         if (message == "1111" && !ledState_4)
         {
             digitalWrite(RELAY_4, LOW);
@@ -226,14 +236,16 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_4 = false;
             delay(500);
         }
+        Serial.println();
+        Serial.println("-----------------------");
     }
-    else if (strcmp(topic, "/home/switch5/command") == 0)
+    else if (strcmp(topic, "/ESP32-client-0/home/switch5/command") == 0)
     {
         for (int i = 0; i < length; i++)
         {
             message += (char)payload[i];
         }
-
+        Serial.print(message);
         if (message == "11111" && !ledState_5)
         {
             digitalWrite(RELAY_5, LOW);
@@ -246,49 +258,58 @@ void callback(char *topic, byte *payload, unsigned int length)
             ledState_5 = false;
             delay(500);
         }
+        Serial.println();
+        Serial.println("-----------------------");
     }
-    else if (strcmp(topic, "/home/switchf/command") == 0)
+    else if (strcmp(topic, "/ESP32-client-0/home/switchf/command") == 0)
     {
         for (int i = 0; i < length; i++)
         {
             message += (char)payload[i];
         }
-
-        if (message == "4")
-        {
-            digitalWrite(RELAY_8, LOW);
-            digitalWrite(RELAY_6, HIGH);
-            digitalWrite(RELAY_7, HIGH);
-            delay(500);
-        }
-        else if (message == "3")
+        Serial.print(message);
+        if (message == "100")
         {
             digitalWrite(RELAY_8, HIGH);
-            digitalWrite(RELAY_6, LOW);
-            digitalWrite(RELAY_7, LOW);
-            delay(500);
-        }
-        else if (message == "2")
-        {
-            digitalWrite(RELAY_8, LOW);
             digitalWrite(RELAY_6, HIGH);
-            digitalWrite(RELAY_7, LOW);
-            delay(500);
-        }
-        else if (message == "1")
-        {
-            digitalWrite(RELAY_8, LOW);
-            digitalWrite(RELAY_6, LOW);
             digitalWrite(RELAY_7, HIGH);
-            delay(500);
+            delay(1000);
+            digitalWrite(RELAY_8, LOW);
+        }
+        else if (message == "75")
+        {
+            digitalWrite(RELAY_8, HIGH);
+            digitalWrite(RELAY_6, HIGH);
+            digitalWrite(RELAY_7, HIGH);
+            delay(1000);
+            digitalWrite(RELAY_6, LOW);
+        }
+        else if (message == "50")
+        {
+            digitalWrite(RELAY_8, HIGH);
+            digitalWrite(RELAY_6, HIGH);
+            digitalWrite(RELAY_7, HIGH);
+            delay(1000);
+            digitalWrite(RELAY_7, LOW);
+        }
+        else if (message == "25")
+        {
+            digitalWrite(RELAY_8, HIGH);
+            digitalWrite(RELAY_6, HIGH);
+            digitalWrite(RELAY_7, HIGH);
+            delay(1000);
+            digitalWrite(RELAY_6, LOW);
+            digitalWrite(RELAY_7, LOW);
         }
         else if (message == "0")
         {
             digitalWrite(RELAY_8, HIGH);
             digitalWrite(RELAY_6, HIGH);
             digitalWrite(RELAY_7, HIGH);
-            delay(500);
+            delay(1000);
         }
+        Serial.println();
+        Serial.println("-----------------------");
     }
 }
 
@@ -409,6 +430,7 @@ void manual_control()
 
 void loop()
 {
+
     if (WiFi.status() != WL_CONNECTED)
     {
         reconnect_wifi();
